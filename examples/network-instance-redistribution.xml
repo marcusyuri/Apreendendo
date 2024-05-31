@@ -1,4 +1,71 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
+  <network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+      <name>DEFAULT</name>
+      <config>
+        <name>DEFAULT</name>
+        <type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:DEFAULT_INSTANCE</type>
+      </config>
+      <table-connections>
+        <table-connection>
+          <src-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</src-protocol>
+          <dst-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</dst-protocol>
+          <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+          <config>
+            <src-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</src-protocol>
+            <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+            <dst-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</dst-protocol>
+            <import-policy>DEFAULT-TO-ISIS-LEVEL2</import-policy>
+          </config>
+        </table-connection>
+      </table-connections>
+      <tables>
+        <table>
+          <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</protocol>
+          <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+          <config>
+            <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</protocol>
+            <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+          </config>
+        </table>
+        <table>
+          <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</protocol>
+          <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+          <config>
+            <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</protocol>
+            <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+          </config>
+        </table>
+      </tables>
+      <protocols>
+        <protocol>
+          <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</identifier>
+          <name>15169</name>
+          <config>
+            <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:ISIS</identifier>
+            <name>15169</name>
+          </config>
+        </protocol>
+        <protocol>
+          <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</identifier>
+          <name>0</name>
+          <config>
+            <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:LOCAL_AGGREGATE</identifier>
+            <name>0</name>
+          </config>
+          <local-aggregates>
+            <aggregate>
+              <prefix>0.0.0.0/0</prefix>
+              <config>
+                <prefix>0.0.0.0/0</prefix>
+                <set-tag>42</set-tag>
+              </config>
+            </aggregate>
+          </local-aggregates>
+        </protocol>
+      </protocols>
+    </network-instance>
+  </network-instances>
   <routing-policy xmlns="http://openconfig.net/yang/routing-policy">
     <defined-sets>
       <prefix-sets>
