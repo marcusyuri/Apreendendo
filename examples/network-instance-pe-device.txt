@@ -105,17 +105,3 @@ network-instances network-instance L3VRF
   config subinterface 2048
  !
 !
-aaa authentication users user admin
- uid        9001
- gid        100
- password   $1$u0H9x/zS$xHk7sl/vG7mMmNz0R5sBA0
- ssh_keydir /var/confd/homes/admin/.ssh
- homedir    /var/confd/homes/admin
-!
-aaa authentication users user oper
- uid        9001
- gid        100
- password   $1$j0FSfWXI$kBse1sEni1ARVhz0KoHSg/
- ssh_keydir /var/confd/homes/oper/.ssh
- homedir    /var/confd/homes/oper
-!
