@@ -1,0 +1,55 @@
+interfaces interface g0/0/0
+ config name g0/0/0
+ config type IF_ETHERNET
+ subinterfaces subinterface 100
+  config index 100
+  vlan config vlan-id 100
+  ipv6 addresses address 2001:DB8::12
+   config ip     2001:DB8::12
+   config prefix-length 127
+  !
+ !
+ ethernet switched-vlan config interface-mode TRUNK
+ ethernet switched-vlan config trunk-vlans [ 1026..1030 1024 1025 ]
+!
+network-instances network-instance GLOBAL
+ config name GLOBAL
+ config type DEFAULT_INSTANCE
+ interfaces interface g0/0/0
+  config id g0/0/0
+  config interface g0/0/0
+ !
+ vlans vlan 1024
+  config vlan-id 1024
+  config name vlan1024
+ !
+ vlans vlan 1025
+  config vlan-id 1025
+  config name vlan1025
+ !
+ vlans vlan 1026
+  config vlan-id 1026
+  config name vlan1026
+ !
+ vlans vlan 1027
+  config vlan-id 1027
+  config name vlan1027
+ !
+ vlans vlan 1028
+  config vlan-id 1028
+  config name vlan1028
+ !
+ vlans vlan 1029
+  config vlan-id 1029
+  config name vlan1029
+ !
+!
+network-instances network-instance SOME_VPN
+ config name SOME_VPN
+ config type L3VRF
+ interfaces interface SALT-LAKE-CITY-OFFICE
+  config id    SALT-LAKE-CITY-OFFICE
+  config interface g0/0/0
+  config subinterface 100
+ !
+!

@@ -1,0 +1,138 @@
+{
+  "data": {
+    "openconfig-interfaces:interfaces": {
+      "interface": [
+        {
+          "name": "g0/0/0",
+          "config": {
+            "name": "g0/0/0",
+            "type": "openconfig-if-types:IF_ETHERNET"
+          },
+          "subinterfaces": {
+            "subinterface": [
+              {
+                "index": 100,
+                "config": {
+                  "index": 100
+                },
+                "openconfig-if-ip:ipv6": {
+                  "addresses": {
+                    "address": [
+                      {
+                        "ip": "2001:DB8::12",
+                        "config": {
+                          "ip": "2001:DB8::12",
+                          "prefix-length": 127
+                        }
+                      }
+                    ]
+                  }
+                },
+                "openconfig-vlan:vlan": {
+                  "config": {
+                    "vlan-id": 100
+                  }
+                }
+              }
+            ]
+          },
+          "openconfig-if-ethernet:ethernet": {
+            "openconfig-vlan:switched-vlan": {
+              "config": {
+                "interface-mode": "TRUNK",
+                "trunk-vlans": ["1026..1030", 1024, 1025]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "openconfig-network-instance:network-instances": {
+      "network-instance": [
+        {
+          "name": "GLOBAL",
+          "config": {
+            "name": "GLOBAL",
+            "type": "openconfig-network-instance-types:DEFAULT_INSTANCE"
+          },
+          "interfaces": {
+            "interface": [
+              {
+                "id": "g0/0/0",
+                "config": {
+                  "id": "g0/0/0",
+                  "interface": "g0/0/0"
+                }
+              }
+            ]
+          },
+          "vlans": {
+            "vlan": [
+              {
+                "vlan-id": 1024,
+                "config": {
+                  "vlan-id": 1024,
+                  "name": "vlan1024"
+                }
+              },
+              {
+                "vlan-id": 1025,
+                "config": {
+                  "vlan-id": 1025,
+                  "name": "vlan1025"
+                }
+              },
+              {
+                "vlan-id": 1026,
+                "config": {
+                  "vlan-id": 1026,
+                  "name": "vlan1026"
+                }
+              },
+              {
+                "vlan-id": 1027,
+                "config": {
+                  "vlan-id": 1027,
+                  "name": "vlan1027"
+                }
+              },
+              {
+                "vlan-id": 1028,
+                "config": {
+                  "vlan-id": 1028,
+                  "name": "vlan1028"
+                }
+              },
+              {
+                "vlan-id": 1029,
+                "config": {
+                  "vlan-id": 1029,
+                  "name": "vlan1029"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "SOME_VPN",
+          "config": {
+            "name": "SOME_VPN",
+            "type": "openconfig-network-instance-types:L3VRF"
+          },
+          "interfaces": {
+            "interface": [
+              {
+                "id": "SALT-LAKE-CITY-OFFICE",
+                "config": {
+                  "id": "SALT-LAKE-CITY-OFFICE",
+                  "interface": "g0/0/0",
+                  "subinterface": 100
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

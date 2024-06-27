@@ -1,0 +1,121 @@
+interfaces interface g0/0/0
+ config name g0/0/0
+ config type IF_ETHERNET
+ config description "PE Interface 1"
+ subinterfaces subinterface 1042
+  config index 1042
+  config description "pink VLAN instance in GLOBAL"
+  vlan config vlan-id 1042
+  ipv4 addresses address 192.168.1.2
+   config ip     192.168.1.2
+   config prefix-length 24
+  !
+  ipv6 addresses address 2001:db8::1
+   config ip     2001:db8::1
+   config prefix-length 64
+  !
+ !
+ subinterfaces subinterface 1400
+  config index 1400
+  config description "blue VLAN instance in L2VSI"
+  vlan config vlan-id 1400
+ !
+ subinterfaces subinterface 1500
+  config index 1500
+  config description "cyan VLAN instance in L2P2P"
+  vlan config vlan-id 1500
+ !
+!
+interfaces interface g0/10/114
+ config name g0/10/114
+ config type IF_ETHERNET
+ config description "PE Interface 2"
+ subinterfaces subinterface 10421042
+  config index 10421042
+  config description "orange VLAN instance in L2P2P"
+  vlan config vlan-id 1042.1042
+ !
+!
+interfaces interface t0/12/116
+ config name t0/12/116
+ config type IF_ETHERNET
+ config description "PE Interface 0"
+ subinterfaces subinterface 1042
+  config index 1042
+  config description "purple VLAN instance in L2VSI"
+  vlan config vlan-id 1042
+ !
+ subinterfaces subinterface 2048
+  config index 2048
+  config description "red VLAN instance in L3VRF"
+  vlan config vlan-id 2048
+  ipv4 addresses address 84.18.192.124
+   config ip     84.18.192.124
+   config prefix-length 24
+  !
+  ipv6 addresses address 2001:4c20::1
+   config ip     2001:4c20::1
+   config prefix-length 64
+  !
+ !
+!
+network-instances network-instance GLOBAL
+ config name GLOBAL
+ config type DEFAULT_INSTANCE
+ interfaces interface g0/0/0.1042
+  config id    g0/0/0.1042
+  config interface g0/0/0
+  config subinterface 1042
+ !
+!
+network-instances network-instance L2P2P
+ config name L2P2P
+ config type L2P2P
+ interfaces interface g0/0/0.1500
+  config id    g0/0/0.1500
+  config interface g0/0/0
+  config subinterface 1500
+ !
+ interfaces interface g0/10/114.1042.1042
+  config id    g0/10/114.1042.1042
+  config interface g0/10/114
+  config subinterface 10421042
+ !
+!
+network-instances network-instance L2VSI
+ config name L2VSI
+ config type L2VSI
+ interfaces interface g0/0/0.1400
+  config id    g0/0/0.1400
+  config interface g0/0/0
+  config subinterface 1400
+ !
+ interfaces interface t0/12/116.1042
+  config id    t0/12/116.1042
+  config interface t0/12/116
+  config subinterface 1042
+ !
+!
+network-instances network-instance L3VRF
+ config name L3VRF
+ config type L3VRF
+ interfaces interface t0/12/116.2048
+  config id    t0/12/116.2048
+  config interface t0/12/116
+  config subinterface 2048
+ !
+!
+aaa authentication users user admin
+ uid        9001
+ gid        100
+ password   $1$u0H9x/zS$xHk7sl/vG7mMmNz0R5sBA0
+ ssh_keydir /var/confd/homes/admin/.ssh
+ homedir    /var/confd/homes/admin
+!
+aaa authentication users user oper
+ uid        9001
+ gid        100
+ password   $1$j0FSfWXI$kBse1sEni1ARVhz0KoHSg/
+ ssh_keydir /var/confd/homes/oper/.ssh
+ homedir    /var/confd/homes/oper
+!

@@ -1,0 +1,94 @@
+{
+  "data": {
+    "openconfig-interfaces:interfaces": {
+      "interface": [
+        {
+          "name": "g0/0/0",
+          "config": {
+            "name": "g0/0/0",
+            "type": "openconfig-if-types:IF_ETHERNET",
+            "description": "ACCESS PORT"
+          },
+          "openconfig-if-ethernet:ethernet": {
+            "openconfig-vlan:switched-vlan": {
+              "config": {
+                "interface-mode": "ACCESS",
+                "access-vlan": 1042
+              }
+            }
+          }
+        },
+        {
+          "name": "g1/0/42",
+          "config": {
+            "name": "g1/0/42",
+            "type": "openconfig-if-types:IF_ETHERNET",
+            "description": "TRUNK PORT"
+          },
+          "openconfig-if-ethernet:ethernet": {
+            "openconfig-vlan:switched-vlan": {
+              "config": {
+                "interface-mode": "TRUNK",
+                "trunk-vlans": [2048, 2049]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "openconfig-network-instance:network-instances": {
+      "network-instance": [
+        {
+          "name": "DEFAULT",
+          "config": {
+            "name": "DEFAULT",
+            "type": "openconfig-network-instance-types:DEFAULT_INSTANCE"
+          },
+          "interfaces": {
+            "interface": [
+              {
+                "id": "g0/0/0",
+                "config": {
+                  "id": "g0/0/0",
+                  "interface": "g0/0/0"
+                }
+              },
+              {
+                "id": "g1/0/42",
+                "config": {
+                  "id": "g1/0/42",
+                  "interface": "g1/0/42"
+                }
+              }
+            ]
+          },
+          "vlans": {
+            "vlan": [
+              {
+                "vlan-id": 1042,
+                "config": {
+                  "vlan-id": 1042,
+                  "name": "RED"
+                }
+              },
+              {
+                "vlan-id": 2048,
+                "config": {
+                  "vlan-id": 2048,
+                  "name": "GREEN"
+                }
+              },
+              {
+                "vlan-id": 2049,
+                "config": {
+                  "vlan-id": 2049,
+                  "name": "ORANGE"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
