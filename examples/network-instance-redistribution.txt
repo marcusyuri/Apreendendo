@@ -1,0 +1,45 @@
+network-instances network-instance DEFAULT
+ config name DEFAULT
+ config type DEFAULT_INSTANCE
+ table-connections table-connection LOCAL_AGGREGATE ISIS IPV4
+  config src-protocol LOCAL_AGGREGATE
+  config address-family IPV4
+  config dst-protocol ISIS
+  config import-policy [ DEFAULT-TO-ISIS-LEVEL2 ]
+ !
+ tables table ISIS IPV4
+  config protocol ISIS
+  config address-family IPV4
+ !
+ tables table LOCAL_AGGREGATE IPV4
+  config protocol LOCAL_AGGREGATE
+  config address-family IPV4
+ !
+ protocols protocol ISIS 15169
+  config identifier ISIS
+  config name 15169
+ !
+ protocols protocol LOCAL_AGGREGATE 0
+  config identifier LOCAL_AGGREGATE
+  config name 0
+  local-aggregates aggregate 0.0.0.0/0
+   config prefix 0.0.0.0/0
+   config set-tag 42
+  !
+ !
+!
+routing-policy defined-sets prefix-sets prefix-set DEFAULT
+ config name DEFAULT
+ prefixes prefix 0.0.0.0/0 exact
+  config ip-prefix 0.0.0.0/0
+  config masklength-range exact
+ !
+!
+routing-policy policy-definitions policy-definition DEFAULT-TO-ISIS-LEVEL2
+ config name DEFAULT-TO-ISIS-LEVEL2
+ statements statement TERM0
+  config name TERM0
+  conditions match-prefix-set config prefix-set DEFAULT
+  actions isis-actions config set-level 2
+ !
+!

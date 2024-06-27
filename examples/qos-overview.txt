@@ -1,0 +1,101 @@
+qos interfaces interface Ethernet42.0
+ config interface-id Ethernet42.0
+ input classifiers classifier IPV4
+  config name IN_CUSTOMERIF
+  config type IPV4
+ !
+ output scheduler-policy config name OUT_CUSTOMERIF
+!
+qos classifiers classifier IN_CUSTOMERIF
+ config name IN_CUSTOMERIF
+ config type IPV4
+ terms term DSCP_AF21
+  config id DSCP_AF21
+  conditions ipv4 config dscp 18
+  actions config target-group LOW
+ !
+ terms term DSCP_AF33
+  config id DSCP_AF33
+  conditions ipv4 config dscp 30
+  actions config target-group MEDIUM
+ !
+ terms term DSCP_AF41
+  config id DSCP_AF41
+  conditions ipv4 config dscp 36
+  actions config target-group HIGH
+ !
+ terms term DSCP_AF42
+  config id DSCP_AF42
+  conditions ipv4 config dscp 38
+  actions config target-group HIGH
+ !
+ terms term DSCP_EF
+  config id DSCP_EF
+  conditions ipv4 config dscp 46
+  actions config target-group LLQ
+ !
+!
+qos forwarding-groups forwarding-group HIGH
+ config name  HIGH
+ config output-queue GOLD
+!
+qos forwarding-groups forwarding-group LLQ
+ config name  LLQ
+ config output-queue PRIORITY
+!
+qos forwarding-groups forwarding-group LOW
+ config name  LOW
+ config output-queue BRONZE
+!
+qos forwarding-groups forwarding-group MEDIUM
+ config name  MEDIUM
+ config output-queue SILVER
+!
+qos queues queue BRONZE
+ config name BRONZE
+!
+qos queues queue GOLD
+ config name GOLD
+!
+qos queues queue PRIORITY
+ config name PRIORITY
+!
+qos queues queue SILVER
+ config name SILVER
+!
+qos scheduler-policies scheduler-policy OUT_CUSTOMERIF
+ config name OUT_CUSTOMERIF
+ schedulers scheduler 0
+  config sequence 0
+  config priority STRICT
+  one-rate-two-color config cir 32000
+  one-rate-two-color config bc 10000
+  one-rate-two-color exceed-action config drop true
+  inputs input PRIORITY_CLASS
+   config id  PRIORITY_CLASS
+   config input-type QUEUE
+   config queue PRIORITY
+  !
+ !
+ schedulers scheduler 1
+  config sequence 1
+  inputs input BRONZE_CLASS
+   config id  BRONZE_CLASS
+   config input-type QUEUE
+   config queue BRONZE
+   config weight 10
+  !
+  inputs input GOLD_CLASS
+   config id  GOLD_CLASS
+   config input-type QUEUE
+   config queue GOLD
+   config weight 50
+  !
+  inputs input SILVER_CLASS
+   config id  SILVER_CLASS
+   config input-type QUEUE
+   config queue SILVER
+   config weight 40
+  !
+ !
+!

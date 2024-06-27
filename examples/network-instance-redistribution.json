@@ -1,0 +1,141 @@
+{
+  "data": {
+    "openconfig-network-instance:network-instances": {
+      "network-instance": [
+        {
+          "name": "DEFAULT",
+          "config": {
+            "name": "DEFAULT",
+            "type": "openconfig-network-instance-types:DEFAULT_INSTANCE"
+          },
+          "table-connections": {
+            "table-connection": [
+              {
+                "src-protocol": "openconfig-policy-types:LOCAL_AGGREGATE",
+                "dst-protocol": "openconfig-policy-types:ISIS",
+                "address-family": "openconfig-types:IPV4",
+                "config": {
+                  "src-protocol": "openconfig-policy-types:LOCAL_AGGREGATE",
+                  "address-family": "openconfig-types:IPV4",
+                  "dst-protocol": "openconfig-policy-types:ISIS",
+                  "import-policy": ["DEFAULT-TO-ISIS-LEVEL2"]
+                }
+              }
+            ]
+          },
+          "tables": {
+            "table": [
+              {
+                "protocol": "openconfig-policy-types:ISIS",
+                "address-family": "openconfig-types:IPV4",
+                "config": {
+                  "protocol": "openconfig-policy-types:ISIS",
+                  "address-family": "openconfig-types:IPV4"
+                }
+              },
+              {
+                "protocol": "openconfig-policy-types:LOCAL_AGGREGATE",
+                "address-family": "openconfig-types:IPV4",
+                "config": {
+                  "protocol": "openconfig-policy-types:LOCAL_AGGREGATE",
+                  "address-family": "openconfig-types:IPV4"
+                }
+              }
+            ]
+          },
+          "protocols": {
+            "protocol": [
+              {
+                "identifier": "openconfig-policy-types:ISIS",
+                "name": "15169",
+                "config": {
+                  "identifier": "openconfig-policy-types:ISIS",
+                  "name": "15169"
+                }
+              },
+              {
+                "identifier": "openconfig-policy-types:LOCAL_AGGREGATE",
+                "name": "0",
+                "config": {
+                  "identifier": "openconfig-policy-types:LOCAL_AGGREGATE",
+                  "name": "0"
+                },
+                "local-aggregates": {
+                  "aggregate": [
+                    {
+                      "prefix": "0.0.0.0/0",
+                      "config": {
+                        "prefix": "0.0.0.0/0",
+                        "set-tag": 42
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "openconfig-routing-policy:routing-policy": {
+      "defined-sets": {
+        "prefix-sets": {
+          "prefix-set": [
+            {
+              "name": "DEFAULT",
+              "config": {
+                "name": "DEFAULT"
+              },
+              "prefixes": {
+                "prefix": [
+                  {
+                    "ip-prefix": "0.0.0.0/0",
+                    "masklength-range": "exact",
+                    "config": {
+                      "ip-prefix": "0.0.0.0/0",
+                      "masklength-range": "exact"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "policy-definitions": {
+        "policy-definition": [
+          {
+            "name": "DEFAULT-TO-ISIS-LEVEL2",
+            "config": {
+              "name": "DEFAULT-TO-ISIS-LEVEL2"
+            },
+            "statements": {
+              "statement": [
+                {
+                  "name": "TERM0",
+                  "config": {
+                    "name": "TERM0"
+                  },
+                  "conditions": {
+                    "match-prefix-set": {
+                      "config": {
+                        "prefix-set": "DEFAULT"
+                      }
+                    }
+                  },
+                  "actions": {
+                    "openconfig-isis-policy:isis-actions": {
+                      "config": {
+                        "set-level": 2
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

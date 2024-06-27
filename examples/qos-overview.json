@@ -1,0 +1,282 @@
+{
+  "data": {
+    "openconfig-qos:qos": {
+      "interfaces": {
+        "interface": [
+          {
+            "interface-id": "Ethernet42.0",
+            "config": {
+              "interface-id": "Ethernet42.0"
+            },
+            "input": {
+              "classifiers": {
+                "classifier": [
+                  {
+                    "type": "IPV4",
+                    "config": {
+                      "name": "IN_CUSTOMERIF",
+                      "type": "IPV4"
+                    }
+                  }
+                ]
+              }
+            },
+            "output": {
+              "scheduler-policy": {
+                "config": {
+                  "name": "OUT_CUSTOMERIF"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "classifiers": {
+        "classifier": [
+          {
+            "name": "IN_CUSTOMERIF",
+            "config": {
+              "name": "IN_CUSTOMERIF",
+              "type": "IPV4"
+            },
+            "terms": {
+              "term": [
+                {
+                  "id": "DSCP_AF21",
+                  "config": {
+                    "id": "DSCP_AF21"
+                  },
+                  "conditions": {
+                    "ipv4": {
+                      "config": {
+                        "dscp": 18
+                      }
+                    }
+                  },
+                  "actions": {
+                    "config": {
+                      "target-group": "LOW"
+                    }
+                  }
+                },
+                {
+                  "id": "DSCP_AF33",
+                  "config": {
+                    "id": "DSCP_AF33"
+                  },
+                  "conditions": {
+                    "ipv4": {
+                      "config": {
+                        "dscp": 30
+                      }
+                    }
+                  },
+                  "actions": {
+                    "config": {
+                      "target-group": "MEDIUM"
+                    }
+                  }
+                },
+                {
+                  "id": "DSCP_AF41",
+                  "config": {
+                    "id": "DSCP_AF41"
+                  },
+                  "conditions": {
+                    "ipv4": {
+                      "config": {
+                        "dscp": 36
+                      }
+                    }
+                  },
+                  "actions": {
+                    "config": {
+                      "target-group": "HIGH"
+                    }
+                  }
+                },
+                {
+                  "id": "DSCP_AF42",
+                  "config": {
+                    "id": "DSCP_AF42"
+                  },
+                  "conditions": {
+                    "ipv4": {
+                      "config": {
+                        "dscp": 38
+                      }
+                    }
+                  },
+                  "actions": {
+                    "config": {
+                      "target-group": "HIGH"
+                    }
+                  }
+                },
+                {
+                  "id": "DSCP_EF",
+                  "config": {
+                    "id": "DSCP_EF"
+                  },
+                  "conditions": {
+                    "ipv4": {
+                      "config": {
+                        "dscp": 46
+                      }
+                    }
+                  },
+                  "actions": {
+                    "config": {
+                      "target-group": "LLQ"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "forwarding-groups": {
+        "forwarding-group": [
+          {
+            "name": "HIGH",
+            "config": {
+              "name": "HIGH",
+              "output-queue": "GOLD"
+            }
+          },
+          {
+            "name": "LLQ",
+            "config": {
+              "name": "LLQ",
+              "output-queue": "PRIORITY"
+            }
+          },
+          {
+            "name": "LOW",
+            "config": {
+              "name": "LOW",
+              "output-queue": "BRONZE"
+            }
+          },
+          {
+            "name": "MEDIUM",
+            "config": {
+              "name": "MEDIUM",
+              "output-queue": "SILVER"
+            }
+          }
+        ]
+      },
+      "queues": {
+        "queue": [
+          {
+            "name": "BRONZE",
+            "config": {
+              "name": "BRONZE"
+            }
+          },
+          {
+            "name": "GOLD",
+            "config": {
+              "name": "GOLD"
+            }
+          },
+          {
+            "name": "PRIORITY",
+            "config": {
+              "name": "PRIORITY"
+            }
+          },
+          {
+            "name": "SILVER",
+            "config": {
+              "name": "SILVER"
+            }
+          }
+        ]
+      },
+      "scheduler-policies": {
+        "scheduler-policy": [
+          {
+            "name": "OUT_CUSTOMERIF",
+            "config": {
+              "name": "OUT_CUSTOMERIF"
+            },
+            "schedulers": {
+              "scheduler": [
+                {
+                  "sequence": 0,
+                  "config": {
+                    "sequence": 0,
+                    "priority": "STRICT"
+                  },
+                  "inputs": {
+                    "input": [
+                      {
+                        "id": "PRIORITY_CLASS",
+                        "config": {
+                          "id": "PRIORITY_CLASS",
+                          "input-type": "QUEUE",
+                          "queue": "PRIORITY"
+                        }
+                      }
+                    ]
+                  },
+                  "one-rate-two-color": {
+                    "config": {
+                      "cir": "32000",
+                      "bc": 10000
+                    },
+                    "exceed-action": {
+                      "config": {
+                        "drop": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "sequence": 1,
+                  "config": {
+                    "sequence": 1
+                  },
+                  "inputs": {
+                    "input": [
+                      {
+                        "id": "BRONZE_CLASS",
+                        "config": {
+                          "id": "BRONZE_CLASS",
+                          "input-type": "QUEUE",
+                          "queue": "BRONZE",
+                          "weight": "10"
+                        }
+                      },
+                      {
+                        "id": "GOLD_CLASS",
+                        "config": {
+                          "id": "GOLD_CLASS",
+                          "input-type": "QUEUE",
+                          "queue": "GOLD",
+                          "weight": "50"
+                        }
+                      },
+                      {
+                        "id": "SILVER_CLASS",
+                        "config": {
+                          "id": "SILVER_CLASS",
+                          "input-type": "QUEUE",
+                          "queue": "SILVER",
+                          "weight": "40"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
