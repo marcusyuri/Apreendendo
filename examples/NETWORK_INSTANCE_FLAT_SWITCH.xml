@@ -1,0 +1,85 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <interfaces xmlns="http://openconfig.net/yang/interfaces">
+    <interface>
+      <name>g0/0/0</name>
+      <config>
+        <name>g0/0/0</name>
+        <type xmlns:oc-ift="http://openconfig.net/yang/openconfig-if-types">oc-ift:IF_ETHERNET</type>
+        <description>ACCESS PORT</description>
+      </config>
+      <ethernet xmlns="http://openconfig.net/yang/interfaces/ethernet">
+        <switched-vlan xmlns="http://openconfig.net/yang/vlan">
+          <config>
+            <interface-mode>ACCESS</interface-mode>
+            <access-vlan>1042</access-vlan>
+          </config>
+        </switched-vlan>
+      </ethernet>
+    </interface>
+    <interface>
+      <name>g1/0/42</name>
+      <config>
+        <name>g1/0/42</name>
+        <type xmlns:oc-ift="http://openconfig.net/yang/openconfig-if-types">oc-ift:IF_ETHERNET</type>
+        <description>TRUNK PORT</description>
+      </config>
+      <ethernet xmlns="http://openconfig.net/yang/interfaces/ethernet">
+        <switched-vlan xmlns="http://openconfig.net/yang/vlan">
+          <config>
+            <interface-mode>TRUNK</interface-mode>
+            <trunk-vlans>2048</trunk-vlans>
+            <trunk-vlans>2049</trunk-vlans>
+          </config>
+        </switched-vlan>
+      </ethernet>
+    </interface>
+  </interfaces>
+  <network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+      <name>DEFAULT</name>
+      <config>
+        <name>DEFAULT</name>
+        <type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:DEFAULT_INSTANCE</type>
+      </config>
+      <interfaces>
+        <interface>
+          <id>g0/0/0</id>
+          <config>
+            <id>g0/0/0</id>
+            <interface>g0/0/0</interface>
+          </config>
+        </interface>
+        <interface>
+          <id>g1/0/42</id>
+          <config>
+            <id>g1/0/42</id>
+            <interface>g1/0/42</interface>
+          </config>
+        </interface>
+      </interfaces>
+      <vlans>
+        <vlan>
+          <vlan-id>1042</vlan-id>
+          <config>
+            <vlan-id>1042</vlan-id>
+            <name>RED</name>
+          </config>
+        </vlan>
+        <vlan>
+          <vlan-id>2048</vlan-id>
+          <config>
+            <vlan-id>2048</vlan-id>
+            <name>GREEN</name>
+          </config>
+        </vlan>
+        <vlan>
+          <vlan-id>2049</vlan-id>
+          <config>
+            <vlan-id>2049</vlan-id>
+            <name>ORANGE</name>
+          </config>
+        </vlan>
+      </vlans>
+    </network-instance>
+  </network-instances>
+</config>
